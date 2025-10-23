@@ -10,6 +10,7 @@
     --primary-color: #FF7A00; /* Laranja mais vibrante */
     --primary-hover-color: #FF9800; /* Laranja mais claro para hover */
     --shadow-color: rgba(44, 62, 80, 0.1);
+    --success-color: #27ae60; /* Cor para mensagens de sucesso */
     --scrollbar-thumb-color: #bdc3c7; /* Cinza claro para o modo claro */
 }
 
@@ -23,6 +24,7 @@ body.dark-theme {
     --primary-color: #FF9800; /* Laranja vibrante para o tema escuro */
     --primary-hover-color: #FF7A00; /* Laranja mais vivo para hover */
     --shadow-color: rgba(0, 0, 0, 0.2);
+    --success-color: #2ecc71; /* Cor para mensagens de sucesso no modo escuro */
     --scrollbar-thumb-color: #2F2F2F; /* Cinza escuro para o modo escuro */
 }
 
@@ -160,6 +162,12 @@ body.dark-theme .app-logo {
 
 .form-error {
     color: #e74c3c;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.form-success {
+    color: var(--success-color);
     font-size: 0.9rem;
     margin-bottom: 15px;
 }
