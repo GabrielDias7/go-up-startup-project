@@ -21,6 +21,12 @@ const loginCard = document.querySelector('.login-card');
 const registerCard = document.querySelector('.register-card');
 const registerError = document.getElementById('register-error');
 const loginError = document.getElementById('login-error');
+const showPasswordReset = document.getElementById('show-password-reset');
+const passwordResetCard = document.querySelector('.password-reset-card');
+const passwordResetForm = document.getElementById('password-reset-form');
+const passwordResetError = document.getElementById('password-reset-error');
+const passwordResetSuccess = document.getElementById('password-reset-success');
+const showLoginFromReset = document.getElementById('show-login-from-reset');
 
 // Toggle between login and register forms
 showRegister.addEventListener('click', (e) => {
@@ -33,6 +39,30 @@ showLogin.addEventListener('click', (e) => {
     e.preventDefault();
     loginCard.style.display = 'block';
     registerCard.style.display = 'none';
+    passwordResetCard.style.display = 'none'; // Garante que o card de redefinição de senha esteja oculto
+    clearFormError(registerError);
+    clearFormError(passwordResetError);
+    clearFormSuccess(passwordResetSuccess);
+});
+
+showPasswordReset.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginCard.style.display = 'none';
+    registerCard.style.display = 'none';
+    passwordResetCard.style.display = 'block';
+    clearFormError(loginError);
+    clearFormError(registerError);
+    clearFormError(passwordResetError);
+    clearFormSuccess(passwordResetSuccess);
+});
+
+showLoginFromReset.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginCard.style.display = 'block';
+    registerCard.style.display = 'none';
+    passwordResetCard.style.display = 'none';
+    clearFormError(passwordResetError);
+    clearFormSuccess(passwordResetSuccess);
 });
 
 function showFormError(element, message) {
@@ -41,6 +71,16 @@ function showFormError(element, message) {
 }
 
 function clearFormError(element) {
+    element.style.display = 'none';
+}
+
+function showFormSuccess(element, message) {
+    element.textContent = message;
+    element.style.display = 'block';
+    element.style.color = 'var(--success-color)'; // Usa a cor de sucesso definida no CSS
+}
+
+function clearFormSuccess(element) {
     element.style.display = 'none';
 }
 
@@ -94,6 +134,29 @@ registerForm.addEventListener('submit', (e) => {
         })
         .catch((error) => {
             showFormError(registerError, 'Não foi possível criar a conta. ' + error.message);
+        });
+});
+
+// Password Reset event
+passwordResetForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearFormError(passwordResetError);
+    clearFormSuccess(passwordResetSuccess);
+
+    const email = passwordResetForm['reset-email'].value;
+
+    auth.sendPasswordResetEmail(email)
+        .then(() => {
+            showFormSuccess(passwordResetSuccess, 'Um email de redefinição de senha foi enviado para ' + email + '. Verifique sua caixa de entrada e a pasta de spam.');
+            passwordResetForm.reset(); // Limpa o campo de email
+        })
+        .catch((error) => {
+            if (error.code === 'auth/user-not-found') {
+                showFormError(passwordResetError, 'Nenhuma conta encontrada com este endereço de e-mail.');
+            } else {
+                showFormError(passwordResetError, 'Erro ao enviar email de redefinição. Tente novamente mais tarde.');
+                console.error("Password Reset Error:", error); // Log do erro para depuração
+            }
         });
 });
 
