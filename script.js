@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const ALL_ACTIVITIES = [
-        { id: 'walk', title: 'Caminhada', icon: 'directions_walk', unit: 'km', baseCoins: 15, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [3, 7], goals: [1, 3, 5, 10] }, // km/h
-        { id: 'run', title: 'Corrida', icon: 'directions_run', unit: 'km', baseCoins: 20, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [7, 15], goals: [3, 5, 10, 21] },
-        { id: 'groupRun', title: 'Corrida em Grupo', icon: 'groups', unit: 'km', baseCoins: 22, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [7, 15], goals: [5, 10] },
-        { id: 'hike', title: 'Trilha', icon: 'hiking', unit: 'km', baseCoins: 25, cooldown: 4 * 60 * 60 * 1000, requiresLocation: true, speedRange: [2, 6], goals: [5, 10, 15] },
-        { id: 'bike', title: 'Pedalada', icon: 'pedal_bike', unit: 'km', baseCoins: 10, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [10, 30], goals: [10, 20, 50, 100] },
+        { id: 'walk', title: 'Caminhada', icon: 'directions_walk', unit: 'km', baseCoins: 15, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [3, 7], goals: [1, 3, 5, 10], co2SavingPerKm: 120 }, // g/km
+        { id: 'run', title: 'Corrida', icon: 'directions_run', unit: 'km', baseCoins: 20, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [7, 15], goals: [3, 5, 10, 21], co2SavingPerKm: 120 },
+        { id: 'groupRun', title: 'Corrida em Grupo', icon: 'groups', unit: 'km', baseCoins: 22, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [7, 15], goals: [5, 10], co2SavingPerKm: 120 },
+        { id: 'hike', title: 'Trilha', icon: 'hiking', unit: 'km', baseCoins: 25, cooldown: 4 * 60 * 60 * 1000, requiresLocation: true, speedRange: [2, 6], goals: [5, 10, 15], co2SavingPerKm: 120 },
+        { id: 'bike', title: 'Pedalada', icon: 'pedal_bike', unit: 'km', baseCoins: 10, cooldown: 2 * 60 * 60 * 1000, requiresLocation: true, speedRange: [10, 30], goals: [10, 20, 50, 100], co2SavingPerKm: 120 },
         
-        { id: 'skate', title: 'Skate', icon: 'skateboarding', unit: 'km', baseCoins: 12, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [5, 20], goals: [2, 5, 10] },
-        { id: 'rollerblade', title: 'Patins', icon: 'roller_skating', unit: 'km', baseCoins: 12, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [5, 20], goals: [2, 5, 10] },
-        { id: 'electricScooter', title: 'Patinete Elétrico', icon: 'electric_scooter', unit: 'km', baseCoins: 8, cooldown: 1 * 60 * 60 * 1000, requiresLocation: false, simulationRange: [3, 10] },
+        { id: 'skate', title: 'Skate', icon: 'skateboarding', unit: 'km', baseCoins: 12, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [5, 20], goals: [2, 5, 10], co2SavingPerKm: 120 },
+        { id: 'rollerblade', title: 'Patins', icon: 'roller_skating', unit: 'km', baseCoins: 12, cooldown: 1 * 60 * 60 * 1000, requiresLocation: true, speedRange: [5, 20], goals: [2, 5, 10], co2SavingPerKm: 120 },
+        { id: 'electricScooter', title: 'Patinete Elétrico', icon: 'electric_scooter', unit: 'km', baseCoins: 8, cooldown: 1 * 60 * 60 * 1000, requiresLocation: false, simulationRange: [3, 10], co2SavingPerKm: 100 },
         
     ];
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DOM Elements ---
     const getEl = id => document.getElementById(id);
-    const body = document.body;
+    const body = document.body, co2SavedElement = getEl('co2-saved');
     const themeToggle = getEl('theme-toggle'), logoutBtn = getEl('logout-btn'), coinBalanceElement = getEl('coin-balance'), progressRing = getEl('progress-ring'), userLevelElement = getEl('user-level'), nextLevelGoalElement = getEl('next-level-goal'), activityGrid = getEl('activity-grid'), couponGrid = getEl('coupon-grid'), achievementsGrid = getEl('achievements-grid'), feedList = getEl('feed-list'), toast = getEl('toast-notification'), toastText = getEl('toast-text');
     const rewardsModal = getEl('rewards-modal'), openRewardsModalBtn = getEl('open-rewards-modal'), closeRewardsModalBtn = getEl('close-rewards-modal');
     // Tracking Modal Elements
@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaultState = {
         coins: 0, level: 1, activitiesLogged: 0, couponsRedeemedCount: 0,
         consecutiveDays: 0, lastActivityTimestamp: 0,
-        redeemedCouponIds: [], unlockedAchievementIds: [],
+        totalCo2Saved: 0, // in grams
+        redeemedCouponIds: [], unlockedAchievementIds: [], 
         lastActivityLog: {},
         activityStats: {}
     };
@@ -173,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
         coinBalanceElement.textContent = appState.coins;
         userLevelElement.textContent = appState.level;
         nextLevelGoalElement.textContent = goalForNextLevel;
+
+        // Update impact stats
+        co2SavedElement.textContent = (appState.totalCo2Saved / 1000).toFixed(2); // Convert grams to kg
     }
 
     function addFeedItem(icon, text) {
@@ -450,6 +454,11 @@ document.addEventListener('DOMContentLoaded', () => {
                  return; // Cancel reward
             }
 
+            // Calculate and add CO2 savings
+            if (activity.co2SavingPerKm) {
+                appState.totalCo2Saved += distanceKm * activity.co2SavingPerKm;
+            }
+
             appState.activitiesLogged++;
             appState.lastActivityLog[activity.id] = Date.now();
             if (!appState.activityStats[activity.id]) {
@@ -571,6 +580,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const value = parseFloat((Math.random() * (max - min) + min).toFixed(2));
 
             const coinsEarned = value * activity.baseCoins;
+
+            // Calculate and add CO2 savings
+            if (activity.co2SavingPerKm) {
+                appState.totalCo2Saved += value * activity.co2SavingPerKm;
+            }
 
             appState.coins += coinsEarned;
             appState.activitiesLogged++;
