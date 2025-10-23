@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #f0f4f8;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(200, 210, 220, 0.8);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text-color: #34495e;
+    --heading-color: #2c3e50;
+    --primary-color: #FF7A00; /* Laranja mais vibrante */
+    --primary-hover-color: #FF9800; /* Laranja mais claro para hover */
+    --shadow-color: rgba(44, 62, 80, 0.1);
+    --success-color: #27ae60; /* Cor para mensagens de sucesso */
+    --scrollbar-thumb-color: #bdc3c7; /* Cinza claro para o modo claro */
+}
+
+body.dark-theme {
+    --bg-color: #000000;
+    --glass-bg: rgba(25, 25, 25, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.15); /* Branco semitransparente para um efeito de vidro */
+    --card-bg: rgba(15, 15, 15, 0.8);
+    --text-color: #FFFFFF;
+    --heading-color: #FF9800; /* Laranja vibrante, alinhado com a cor primária */
+    --primary-color: #FF9800; /* Laranja vibrante para o tema escuro */
+    --primary-hover-color: #FF7A00; /* Laranja mais vivo para hover */
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --success-color: #2ecc71; /* Cor para mensagens de sucesso no modo escuro */
+    --scrollbar-thumb-color: #2F2F2F; /* Cinza escuro para o modo escuro */
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 0; /* Remove os cantos arredondados */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow-color) 0px 8px 24px;
+    text-align: center; 
+}
+
+.app-logo {
+    max-width: 180px; /* Ajuste conforme necessário para o tamanho desejado */
+    height: auto;
+    margin-bottom: 10px; /* Espaçamento abaixo da logo */
+    background-color: #ffffff; /* Fundo branco para destacar a logo */
+    border-radius: 25px; /* Cantos arredondados para o fundo */
+    padding: 10px; /* Espaçamento interno para a logo não tocar as bordas */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra sutil */
+    border: 1px solid var(--glass-border); /* Borda consistente com o tema */
+}
+
+body.dark-theme .app-logo {
+    background-color: #1e1e1e; /* Cinza mais escuro para o fundo da logo no modo escuro */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* Sombra mais apropriada para o modo escuro */
+}
+
+.card h1 {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.input-field {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--heading-color);
+}
+
+.input-field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--glass-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.button {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px);
+}
+
+.toggle-form {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.toggle-form a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.form-error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.form-success {
+    color: var(--success-color);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}

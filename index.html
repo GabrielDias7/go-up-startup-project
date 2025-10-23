@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Up</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="IMG-20251023-WA0037-removebg-preview.png" alt="Go UP Logo" class="app-logo">
+                <div>
+                    <button id="theme-toggle" class="theme-button">
+                        <span class="material-symbols-outlined">light_mode</span>
+                    </button>
+                    <button id="logout-btn" class="theme-button">
+                        <span class="material-symbols-outlined">logout</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="user-profile card">
+                <h2 class="sidebar-title">Meu Progresso</h2>
+                <div class="progress-chart">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <circle class="progress-ring-bg" cx="80" cy="80" r="70"></circle>
+                        <circle id="progress-ring" class="progress-ring-fg" cx="80" cy="80" r="70"></circle>
+                    </svg>
+                    <div class="chart-text">
+                        <span id="coin-balance" class="coin-total">0</span>
+                        <span class="coin-label">moedas</span>
+                    </div>
+                </div>
+                <div class="user-level">
+                    <span>Nível <span id="user-level">1</span></span>
+                </div>
+                <p class="goal-text">Meta para o próximo nível: <span id="next-level-goal">100</span> moedas</p>
+            </div>
+
+             <footer>
+                <p>&copy; 2025 GoUp</p>
+            </footer>
+        </aside>
+
+        <main class="main-content">
+            <div class="main-header">
+                <h2>O que você irá fazer hoje?</h2>
+                <button id="open-rewards-modal" class="button primary-button">Ver Cupons</button>
+            </div>
+            <div id="activity-grid" class="activity-grid">
+           
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="impact-stats card">
+                <h2 class="sidebar-title">Seu Impacto Positivo</h2>
+                <div class="impact-item">
+                    <span class="material-symbols-outlined">co2</span>
+                    <p><strong><span id="co2-saved">0</span> kg</strong> de CO₂ economizados</p>
+                </div>
+            </div>
+
+            <section id="achievements">
+                <h2>Minhas Conquistas</h2>
+                <div id="achievements-grid" class="achievements-grid">
+                   
+                </div>
+            </section>
+            <section id="activity-feed">
+                <h2>Atividades Recentes</h2>
+                <ul id="feed-list" class="feed-list">
+             
+                </ul>
+            </section>
+        </aside>
+    </div>
+
+
+    <div id="rewards-modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2>Cupons de Desconto</h2>
+                <button id="close-rewards-modal" class="close-button">&times;</button>
+            </div>
+            <section id="coupon-store">
+                <div id="coupon-grid" class="coupon-grid">
+         
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Goal Selection Modal -->
+    <div id="goal-selection-modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2 id="goal-activity-title">Escolha sua meta</h2>
+                <button id="close-goal-modal" class="close-button">&times;</button>
+            </div>
+            <div id="goal-grid" class="goal-grid">
+                <!-- Goal options will be inserted here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Tracking Modal -->
+    <div id="tracking-modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2 id="tracking-activity-title">Rastreando Atividade...</h2>
+            </div>
+            <div class="tracking-stats">
+                <div class="stat-item"><span id="distance-label">Distância</span><strong id="tracking-distance">0.00 km</strong></div>
+                <div class="stat-item"><span>Tempo</span><strong id="tracking-time">00:00:00</strong></div>
+                <div class="stat-item"><span>Velocidade</span><strong id="tracking-speed">0.0 km/h</strong></div>
+            </div>
+            <p id="tracking-status" class="tracking-status-message">Mantenha-se em movimento! Estamos validando sua atividade.</p>
+            <button id="stop-tracking-btn" class="button stop-button">Parar e Concluir</button>
+        </div>
+    </div>
+
+
+   
+    <div id="toast-notification" class="toast">
+        <span class="material-symbols-outlined">workspace_premium</span>
+        <div class="toast-content">
+            <p class="toast-title">Conquista Desbloqueada!</p>
+            <p id="toast-text" class="toast-message">Você é um Eco-Iniciante!</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
